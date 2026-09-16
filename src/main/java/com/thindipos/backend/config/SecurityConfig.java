@@ -36,10 +36,22 @@ public class SecurityConfig {
                 )
 
                 .authorizeHttpRequests(auth -> auth
+
+                        // Public APIs
                         .requestMatchers(
                                 "/auth/register",
                                 "/auth/login"
                         ).permitAll()
+
+                        // ADMIN only
+                        .requestMatchers("/admin/**")
+                        .hasRole("ADMIN")
+
+                        // STAFF only
+                        .requestMatchers("/staff/**")
+                        .hasRole("STAFF")
+
+                        // Everything else requires login
                         .anyRequest().authenticated()
                 )
 
